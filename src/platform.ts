@@ -9,7 +9,7 @@ import type {
 import { RTETempoAccessory } from './platformAccessory.js'
 import { PLATFORM_NAME, PLUGIN_NAME, PluginConfig } from './settings.js'
 
-export class RTETempoPlatform implements DynamicPlatformPlugin {
+export class RteTempoPlatform implements DynamicPlatformPlugin {
   public readonly accessories: PlatformAccessory[] = []
 
   public pluginConfig: PluginConfig

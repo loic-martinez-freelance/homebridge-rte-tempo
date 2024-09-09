@@ -1,5 +1,5 @@
 import { type PlatformAccessory, type Service } from 'homebridge'
-import type { RTETempoPlatform } from './platform.js'
+import type { RteTempoPlatform } from './platform.js'
 
 const HOURLY_RATE = 3600000
 
@@ -9,7 +9,7 @@ export class RTETempoAccessory {
   private redDayService: Service
 
   constructor(
-    private readonly platform: RTETempoPlatform,
+    private readonly platform: RteTempoPlatform,
     private readonly accessory: PlatformAccessory
   ) {
     this.accessory
