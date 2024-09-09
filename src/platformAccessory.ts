@@ -13,58 +13,58 @@ export class RTETempoAccessory {
     private readonly accessory: PlatformAccessory
   ) {
     this.accessory
-      .getService(this.platform.Service.AccessoryInformation)!
+      .getService(this.platform.api.hap.Service.AccessoryInformation)!
       .setCharacteristic(
-        this.platform.Characteristic.Manufacturer,
+        this.platform.api.hap.Characteristic.Manufacturer,
         'Homebridge RTE Tempo'
       )
       .setCharacteristic(
-        this.platform.Characteristic.Model,
+        this.platform.api.hap.Characteristic.Model,
         'Homebridge RTE Tempo'
       )
 
     this.blueDayService =
       this.accessory.getService('Tempo jour bleu') ||
       this.accessory.addService(
-        this.platform.Service.MotionSensor,
+        this.platform.api.hap.Service.MotionSensor,
         'Tempo jour bleu',
         'tempojourbleu'
       )
     this.blueDayService.addOptionalCharacteristic(
-      this.platform.Characteristic.ConfiguredName
+      this.platform.api.hap.Characteristic.ConfiguredName
     )
     this.blueDayService.setCharacteristic(
-      this.platform.Characteristic.ConfiguredName,
+      this.platform.api.hap.Characteristic.ConfiguredName,
       'Tempo jour bleu'
     )
 
     this.whiteDayService =
       this.accessory.getService('Tempo jour blanc') ||
       this.accessory.addService(
-        this.platform.Service.MotionSensor,
+        this.platform.api.hap.Service.MotionSensor,
         'Tempo jour blanc',
         'tempojourblanc'
       )
     this.whiteDayService.addOptionalCharacteristic(
-      this.platform.Characteristic.ConfiguredName
+      this.platform.api.hap.Characteristic.ConfiguredName
     )
     this.whiteDayService.setCharacteristic(
-      this.platform.Characteristic.ConfiguredName,
+      this.platform.api.hap.Characteristic.ConfiguredName,
       'Tempo jour blanc'
     )
 
     this.redDayService =
       this.accessory.getService('Tempo jour rouge') ||
       this.accessory.addService(
-        this.platform.Service.MotionSensor,
+        this.platform.api.hap.Service.MotionSensor,
         'Tempo jour rouge',
         'tempojourrouge'
       )
     this.redDayService.addOptionalCharacteristic(
-      this.platform.Characteristic.ConfiguredName
+      this.platform.api.hap.Characteristic.ConfiguredName
     )
     this.redDayService.setCharacteristic(
-      this.platform.Characteristic.ConfiguredName,
+      this.platform.api.hap.Characteristic.ConfiguredName,
       'Tempo jour rouge'
     )
 
@@ -97,57 +97,57 @@ export class RTETempoAccessory {
     switch (color) {
       case 0:
         this.blueDayService.updateCharacteristic(
-          this.platform.Characteristic.MotionDetected,
+          this.platform.api.hap.Characteristic.MotionDetected,
           false
         )
         this.whiteDayService.updateCharacteristic(
-          this.platform.Characteristic.MotionDetected,
+          this.platform.api.hap.Characteristic.MotionDetected,
           false
         )
         this.redDayService.updateCharacteristic(
-          this.platform.Characteristic.MotionDetected,
+          this.platform.api.hap.Characteristic.MotionDetected,
           false
         )
         break
       case 1:
         this.blueDayService.updateCharacteristic(
-          this.platform.Characteristic.MotionDetected,
+          this.platform.api.hap.Characteristic.MotionDetected,
           true
         )
         this.whiteDayService.updateCharacteristic(
-          this.platform.Characteristic.MotionDetected,
+          this.platform.api.hap.Characteristic.MotionDetected,
           false
         )
         this.redDayService.updateCharacteristic(
-          this.platform.Characteristic.MotionDetected,
+          this.platform.api.hap.Characteristic.MotionDetected,
           false
         )
         break
       case 2:
         this.blueDayService.updateCharacteristic(
-          this.platform.Characteristic.MotionDetected,
+          this.platform.api.hap.Characteristic.MotionDetected,
           false
         )
         this.whiteDayService.updateCharacteristic(
-          this.platform.Characteristic.MotionDetected,
+          this.platform.api.hap.Characteristic.MotionDetected,
           true
         )
         this.redDayService.updateCharacteristic(
-          this.platform.Characteristic.MotionDetected,
+          this.platform.api.hap.Characteristic.MotionDetected,
           false
         )
         break
       case 3:
         this.blueDayService.updateCharacteristic(
-          this.platform.Characteristic.MotionDetected,
+          this.platform.api.hap.Characteristic.MotionDetected,
           false
         )
         this.whiteDayService.updateCharacteristic(
-          this.platform.Characteristic.MotionDetected,
+          this.platform.api.hap.Characteristic.MotionDetected,
           false
         )
         this.redDayService.updateCharacteristic(
-          this.platform.Characteristic.MotionDetected,
+          this.platform.api.hap.Characteristic.MotionDetected,
           true
         )
         break

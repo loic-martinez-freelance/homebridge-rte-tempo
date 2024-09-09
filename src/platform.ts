@@ -1,20 +1,15 @@
 import type {
   API,
-  Characteristic,
   DynamicPlatformPlugin,
   Logging,
   PlatformAccessory,
   PlatformConfig,
-  Service,
 } from 'homebridge'
 
 import { RTETempoAccessory } from './platformAccessory.js'
 import { PLATFORM_NAME, PLUGIN_NAME, PluginConfig } from './settings.js'
 
 export class RTETempoPlatform implements DynamicPlatformPlugin {
-  public readonly Service: typeof Service
-  public readonly Characteristic: typeof Characteristic
-
   public readonly accessories: PlatformAccessory[] = []
 
   public pluginConfig: PluginConfig
@@ -24,9 +19,6 @@ export class RTETempoPlatform implements DynamicPlatformPlugin {
     public readonly config: PlatformConfig,
     public readonly api: API
   ) {
-    this.Service = api.hap.Service
-    this.Characteristic = api.hap.Characteristic
-
     this.log.debug('Finished initializing platform:', this.config.name)
 
     this.pluginConfig = { refreshrate: this.config.refreshrate }
