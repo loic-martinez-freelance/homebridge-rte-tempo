@@ -1,0 +1,26 @@
+{
+  "pluginAlias": "homebridge-rte-tempo",
+  "pluginType": "platform",
+  "footerDisplay": "Plugin Homebridge pour connaitre la couleur du jour sur Tempo.",
+  "singular": true,
+  "schema": {
+    "type": "object",
+    "properties": {
+      "refreshrate": {
+        "type": "string",
+        "title": "Actualisation",
+        "description": "Fréquence d'actualisation de la valeur RTE Tempo",
+        "oneOf": [
+          {
+            "title": "Une fois par jours",
+            "enum": ["daily"]
+          },
+          {
+            "title": "Toutes les heures",
+            "enum": ["hourly"]
+          }
+        ]
+      }
+    }
+  }
+}
