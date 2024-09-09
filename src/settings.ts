@@ -1,4 +1,4 @@
-export const PLATFORM_NAME = 'homebridge-rte-tempo'
+export const PLATFORM_NAME = 'homebridgertetempo'
 export const PLUGIN_NAME = 'homebridge-rte-tempo'
 
 export type PluginConfig = {

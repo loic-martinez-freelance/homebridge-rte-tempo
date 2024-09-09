@@ -1,5 +1,5 @@
 {
-  "pluginAlias": "homebridge-rte-tempo",
+  "pluginAlias": "homebridgertetempo",
   "pluginType": "platform",
   "footerDisplay": "Plugin Homebridge pour connaitre la couleur du jour sur Tempo.",
   "singular": true,
