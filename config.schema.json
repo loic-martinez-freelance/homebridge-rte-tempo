@@ -7,9 +7,11 @@
     "type": "object",
     "properties": {
       "refreshrate": {
+        "required": true,
         "type": "string",
         "title": "Actualisation",
         "description": "Fréquence d'actualisation de la valeur RTE Tempo",
+        "default": "daily",
         "oneOf": [
           {
             "title": "Une fois par jours",

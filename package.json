@@ -2,12 +2,13 @@
   "name": "homebridge-rte-tempo",
   "displayName": "Homebridge RTE Tempo",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Plugin Homebridge pour connaitre la couleur du jour sur Tempo.",
   "files": [
     "dist",
     "LICENCE",
-    "README.md"
+    "README.md",
+    "config.schema.json"
   ],
   "author": {
     "name": "Loïc Martinez",
