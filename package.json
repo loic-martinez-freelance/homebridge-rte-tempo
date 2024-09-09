@@ -3,7 +3,6 @@
   "displayName": "Homebridge RTE Tempo",
   "type": "module",
   "version": "1.0.0",
-  "private": true,
   "description": "Plugin Homebridge pour connaitre la couleur du jour sur Tempo.",
   "files": [
     "dist",
