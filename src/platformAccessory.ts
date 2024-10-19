@@ -2,6 +2,7 @@ import { type PlatformAccessory, type Service } from 'homebridge'
 import type { RteTempoPlatform } from './platform.js'
 
 const HOURLY_RATE = 3600000
+const TENMIN_RATE = 600000
 
 export class RTETempoAccessory {
   private blueDayService: Service
@@ -93,64 +94,25 @@ export class RTETempoAccessory {
 
   private update = async () => {
     const color = await this.getRTEColor()
-    this.platform.log.debug('Updating tempo color :', color)
-    switch (color) {
-      case 0:
-        this.blueDayService.updateCharacteristic(
-          this.platform.api.hap.Characteristic.MotionDetected,
-          false
-        )
-        this.whiteDayService.updateCharacteristic(
-          this.platform.api.hap.Characteristic.MotionDetected,
-          false
-        )
-        this.redDayService.updateCharacteristic(
-          this.platform.api.hap.Characteristic.MotionDetected,
-          false
-        )
-        break
-      case 1:
-        this.blueDayService.updateCharacteristic(
-          this.platform.api.hap.Characteristic.MotionDetected,
-          true
-        )
-        this.whiteDayService.updateCharacteristic(
-          this.platform.api.hap.Characteristic.MotionDetected,
-          false
-        )
-        this.redDayService.updateCharacteristic(
-          this.platform.api.hap.Characteristic.MotionDetected,
-          false
-        )
-        break
-      case 2:
-        this.blueDayService.updateCharacteristic(
-          this.platform.api.hap.Characteristic.MotionDetected,
-          false
-        )
-        this.whiteDayService.updateCharacteristic(
-          this.platform.api.hap.Characteristic.MotionDetected,
-          true
-        )
-        this.redDayService.updateCharacteristic(
-          this.platform.api.hap.Characteristic.MotionDetected,
-          false
-        )
-        break
-      case 3:
-        this.blueDayService.updateCharacteristic(
-          this.platform.api.hap.Characteristic.MotionDetected,
-          false
-        )
-        this.whiteDayService.updateCharacteristic(
-          this.platform.api.hap.Characteristic.MotionDetected,
-          false
-        )
-        this.redDayService.updateCharacteristic(
-          this.platform.api.hap.Characteristic.MotionDetected,
-          true
-        )
-        break
+    this.platform.log.info('Updating tempo color :', color)
+    this.blueDayService.updateCharacteristic(
+      this.platform.api.hap.Characteristic.MotionDetected,
+      color === 1 ? true : false
+    )
+    this.whiteDayService.updateCharacteristic(
+      this.platform.api.hap.Characteristic.MotionDetected,
+      color === 2 ? true : false
+    )
+    this.redDayService.updateCharacteristic(
+      this.platform.api.hap.Characteristic.MotionDetected,
+      color === 3 ? true : false
+    )
+
+    if (color === 0) {
+      this.platform.log.info('Update will retry in 10 minutes')
+      setTimeout(() => {
+        this.update()
+      }, TENMIN_RATE)
     }
   }
 
