@@ -21,7 +21,10 @@ export class RteTempoPlatform implements DynamicPlatformPlugin {
   ) {
     this.log.debug('Finished initializing platform:', this.config.name)
 
-    this.pluginConfig = { refreshrate: this.config.refreshrate }
+    this.pluginConfig = {
+      refreshrate: this.config.refreshrate,
+      forceDetectorRefresh: this.config.forceDetectorRefresh,
+    }
 
     this.api.on('didFinishLaunching', () => {
       this.discoverDevices()

@@ -2,9 +2,12 @@ import { type PlatformAccessory, type Service } from 'homebridge'
 import type { RteTempoPlatform } from './platform.js'
 
 const HOURLY_RATE = 3600000
+const MIN_RATE = 60000
 const TENMIN_RATE = 600000
+const ONESEC_RATE = 1000
 
 export class RTETempoAccessory {
+  private currentRTEColor: number = 0
   private blueDayService: Service
   private whiteDayService: Service
   private redDayService: Service
@@ -72,46 +75,84 @@ export class RTETempoAccessory {
     this.startAccessory()
   }
 
-  private startAccessory = () => {
-    this.update()
+  private startAccessory = async () => {
+    this.platform.log.debug(
+      'Selected refresh rate : ',
+      this.platform.pluginConfig.refreshrate
+    )
+    this.platform.log.debug(
+      'Selected switch rate : ',
+      this.platform.pluginConfig.forceDetectorRefresh
+    )
+
     setInterval(() => {
-      this.platform.log.debug(
-        'Selected refresh rate : ',
-        this.platform.pluginConfig.refreshrate
-      )
       if (this.platform.pluginConfig.refreshrate === 'hourly') {
-        this.update()
+        this.updateRTEColor()
       } else {
         const currentDate = new Date()
         const hours = currentDate.getHours()
         this.platform.log.debug('Current time : ', hours)
         if (hours === 1) {
-          this.update()
+          this.updateRTEColor()
         }
       }
     }, HOURLY_RATE)
+
+    setInterval(
+      () => {
+        this.update()
+      },
+      this.platform.pluginConfig.forceDetectorRefresh === 'minutes'
+        ? MIN_RATE
+        : HOURLY_RATE
+    )
+
+    await this.updateRTEColor()
+    this.update()
   }
 
-  private update = async () => {
-    const color = await this.getRTEColor()
-    this.platform.log.info('Updating tempo color :', color)
-    this.blueDayService.updateCharacteristic(
-      this.platform.api.hap.Characteristic.MotionDetected,
-      color === 1 ? true : false
+  private update = () => {
+    this.platform.log.info('Updating tempo color :', this.currentRTEColor)
+    this.switchDetectorONOFF(
+      this.blueDayService,
+      this.currentRTEColor === 1 ? true : false
     )
-    this.whiteDayService.updateCharacteristic(
-      this.platform.api.hap.Characteristic.MotionDetected,
-      color === 2 ? true : false
+    this.switchDetectorONOFF(
+      this.whiteDayService,
+      this.currentRTEColor === 2 ? true : false
     )
-    this.redDayService.updateCharacteristic(
-      this.platform.api.hap.Characteristic.MotionDetected,
-      color === 3 ? true : false
+    this.switchDetectorONOFF(
+      this.redDayService,
+      this.currentRTEColor === 3 ? true : false
     )
+  }
 
-    if (color === 0) {
+  private switchDetectorONOFF = (detector: Service, newValue: boolean) => {
+    if (newValue) {
+      detector.updateCharacteristic(
+        this.platform.api.hap.Characteristic.MotionDetected,
+        false
+      )
+      setTimeout(() => {
+        detector.updateCharacteristic(
+          this.platform.api.hap.Characteristic.MotionDetected,
+          true
+        )
+      }, ONESEC_RATE)
+    } else {
+      detector.updateCharacteristic(
+        this.platform.api.hap.Characteristic.MotionDetected,
+        false
+      )
+    }
+  }
+
+  private updateRTEColor = async () => {
+    this.currentRTEColor = await this.getRTEColor()
+    if (this.currentRTEColor === 0) {
       this.platform.log.info('Update will retry in 10 minutes')
       setTimeout(() => {
-        this.update()
+        this.updateRTEColor()
       }, TENMIN_RATE)
     }
   }
